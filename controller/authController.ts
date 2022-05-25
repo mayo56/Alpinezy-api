@@ -72,7 +72,7 @@ export const authController = {
                         discriminator:AllUser.rows[indexOfUser].discriminator,
                     },process.env.TOKEN_JWT!
                 )
-                return res.status(200).cookie("alpinezy", token, { httpOnly:true}).send({token:token, userinfo:{username:username}});
+                return res.status(200).cookie("alpinezy", token, { httpOnly:true}).send({token:token, userinfo:{username:username, id:AllUser.rows[indexOfUser].id}});
             }
         })
     },
