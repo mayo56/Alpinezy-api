@@ -22,9 +22,9 @@ export const threadController = {
         const UserInfoJWT: userFormJWT = express.user as userFormJWT;
 
         const Allpost = await requestDB("SELECT * FROM alpinezy_thread;");
-
+        console.log("Post posté !!!", Allpost.rows.length)
         try {
-            await requestDB(`INSERT INTO alpinezy_thread VALUES (${Allpost.rows.length + 1}, ${UserInfoJWT.id}, '${body.message}', '${Date.now().toString()}');`);
+            await requestDB(`INSERT INTO alpinezy_thread VALUES (${(Allpost.rows.length + 1)}, ${UserInfoJWT.id}, '${body.message}', '${Date.now().toString()}');`);
             io.emit("newPost");
             return res.status(201).send({ success: "Post correctement ajouté !" });
         } catch (err) {
@@ -55,5 +55,9 @@ export const threadController = {
 
         await requestDB(`UPDATE alpinezy_thread SET message='' WHERE id = ${Number(body.idPost)};`);
         return res.status(201).send({ success: "Post correctement supprimé" });
+    },
+    requestAllPost: async (req: express.Request, res: express.Response) => {
+        const AllPost = await requestDB("SELECT * FROM alpinezy_thread ORDER BY id DESC LIMIT 20;");
+        res.status(201).send({post:AllPost.rows});
     }
 };

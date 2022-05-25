@@ -8,6 +8,7 @@ import { jwt_CheckAuth } from "../middleware/jwt-chechAuth"
 thread.post("/post", jwt_CheckAuth, threadController.post)
 thread.patch("/modify", jwt_CheckAuth, threadController.patch)
 thread.delete("/delete", jwt_CheckAuth, threadController.delete)
+thread.get("/requestAllPost", jwt_CheckAuth, threadController.requestAllPost)
 
 
 export default thread;

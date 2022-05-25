@@ -59,6 +59,9 @@ app.use("/api/auth", authRoute);
 import msgRoute from "./router/msgRoute";
 app.use("/api/message", msgRoute);
 
+//route get user
+import userRoute from "./router/userRoute";
+app.use("/api/user", userRoute);
 
 
 // ###############  //
@@ -66,11 +69,13 @@ app.use("/api/message", msgRoute);
 // ###############  //
 
 import { Server } from "socket.io"
-export const io = new Server(9000)
+
+export const io = new Server(3001, {"cors":{"origin":'*', "allowedHeaders":"*", "methods":"*"}})
+
 
 io.on("connection", (socket) => {
     console.log(socket.id, "vient de se connecter !", socket.rooms)
-    io.emit("hello", "Hello depuis le serveur !")
+    io.emit("hello", socket.id ,"Hello depuis le serveur !")
 
     socket.on("disconnect", (reason) => {
         console.log("Client déconnecté pour : " + reason)
@@ -80,4 +85,4 @@ io.on("connection", (socket) => {
 
 
 //le listener
-app.listen(process.env.PORT, () => console.log("Connect !"));
+app.listen(process.env.PORT, () => console.log("Connect ! " + process.env.PORT));

@@ -16,7 +16,6 @@ import jwt from "jsonwebtoken";
 
 //import de la fonction pour request la db
 import requestDB from "../serveur";
-import { QueryResult } from "pg";
 
 interface singInInterface {
     email: string;
@@ -49,11 +48,13 @@ export const authController = {
         let EmailIsValide: boolean = false;
         let PassWord: string = "";
         let indexOfUser:number = 0;
+        let username = ""
         for (let i = 0; i < AllUser.rows.length; i++) {
             if (AllUser.rows[i].email === body.email) {
                 EmailIsValide = true;
                 PassWord = AllUser.rows[i].password;
                 indexOfUser = i;
+                username = AllUser.rows[i].username;
             };
         };
         if (EmailIsValide === false) {
@@ -71,10 +72,9 @@ export const authController = {
                         discriminator:AllUser.rows[indexOfUser].discriminator,
                     },process.env.TOKEN_JWT!
                 )
-                return res.status(200).cookie("alpinezy", token, { httpOnly:true}).send({token:token});
+                return res.status(200).cookie("alpinezy", token, { httpOnly:true}).send({token:token, userinfo:{username:username}});
             }
         })
-
     },
 
 
@@ -94,7 +94,7 @@ export const authController = {
                 AllDiscriminatorMatch.push(allUser[i].discriminator);
             };
             if (allUser[i].email === body.email) {
-                return res.status(201).send({ EmailError: "Cette e-mail est déjà utilisé." });
+                return res.status(201).send({ error: "Cette e-mail est déjà utilisé." });
             };
         };
 
