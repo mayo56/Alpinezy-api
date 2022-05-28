@@ -22,9 +22,9 @@ export const threadController = {
         const UserInfoJWT: userFormJWT = express.user as userFormJWT;
 
         const Allpost = await requestDB("SELECT * FROM alpinezy_thread;");
-        console.log("Post posté !!!", Allpost.rows.length)
+        const MessageSansApostrophe = body.message.split(/'/g);
         try {
-            await requestDB(`INSERT INTO alpinezy_thread VALUES (${(Allpost.rows.length + 1)}, ${UserInfoJWT.id}, '${body.message}', '${Date.now().toString()}');`);
+            await requestDB(`INSERT INTO alpinezy_thread (id, user_id, message, timestamp) VALUES (${(Allpost.rows.length + 1)}, ${UserInfoJWT.id}, '${MessageSansApostrophe}', '${Date.now().toString()}');`);
             io.emit("newPost");
             return res.status(201).send({ success: "Post correctement ajouté !" });
         } catch (err) {
