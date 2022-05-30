@@ -28,9 +28,10 @@ export const GetUser = {
     },
 }
 
+import { uniqueSuffix } from "../router/userRoute";
 export const setUser = {
     avatar:async (req:express.Request, res:express.Response) => {
-        console.log(req.file, "mon image");
-        res.send("ok")
+        console.log(req.file, uniqueSuffix);
+        res.send(`file-${uniqueSuffix}`)
     }
 }

@@ -44,7 +44,7 @@ app.get("/lol", (req, res) => {
 })
 app.get('/image/:name', function (req, res, next) {
     var options = {
-      root: path.join(__dirname, 'images'),
+      root: path.join(__dirname, 'images/avatarFile'),
       dotfiles: 'deny',
       headers: {
         'x-timestamp': Date.now(),
