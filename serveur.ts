@@ -36,6 +36,32 @@ app.use(cors());
 app.use(express.json());
 
 
+//test images
+import path from "path"
+
+app.get("/lol", (req, res) => {
+    res.sendFile("./images/avatarFile/paimon_4543.jpg")
+})
+app.get('/image/:name', function (req, res, next) {
+    var options = {
+      root: path.join(__dirname, 'images'),
+      dotfiles: 'deny',
+      headers: {
+        'x-timestamp': Date.now(),
+        'x-sent': true
+      }
+    }
+  
+    var fileName = req.params.name
+    res.sendFile(fileName, options, function (err) {
+      if (err) {
+        next(err)
+      } else {
+        console.log('Sent:', fileName)
+      }
+    })
+  })
+
 
 //poster dans le fil
 import thread from "./router/threadRoute";
@@ -44,11 +70,12 @@ app.use("/api/thread", thread);
 
 
 //Requêtes pour les utilisateurs 
+/*
 import { UserCheck } from "./class/UserClass";
 app.get("/api/user/:id", (req, res) => {
     const id = req.params.id;
     const response = new UserCheck(id, res, req).getUser();
-});
+});*/
 
 //routes pour login/register
 import authRoute from "./router/authRoute";

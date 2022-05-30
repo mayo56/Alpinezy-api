@@ -1,6 +1,7 @@
 import express from "express"
 
 import requestDB from "../serveur";
+import userFormJWT from "./threadController";
 
 interface ObjectUserFrom {
     id: number;
@@ -14,7 +15,6 @@ export const GetUser = {
     ObjectUser: async (req: express.Request, res: express.Response) => {
         const requete = req.params.id;
         const userReq: ObjectUserFrom[] = ((await requestDB(`SELECT * FROM alpinezy_user WHERE id=${Number(requete)};`)).rows)
-        console.log(userReq)
         const userRes = userReq.map((e: ObjectUserFrom) => {
             return {
                 id: e.id,
@@ -26,4 +26,11 @@ export const GetUser = {
         })
         return res.status(201).send({ user: userRes });
     },
+}
+
+export const setUser = {
+    avatar:async (req:express.Request, res:express.Response) => {
+        console.log(req.file, "mon image");
+        res.send("ok")
+    }
 }
