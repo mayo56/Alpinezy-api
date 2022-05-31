@@ -35,7 +35,7 @@ const uploadBanner = multer({ storage: storageBanner });
 // Partie get d'image
 import path from "path";
 var optionsAvatar = {
-    root: path.join(__dirname, 'images/avatarFile'),
+    root: path.join(__dirname, '../images/avatarFile'),
     dotfiles: 'deny',
     headers: {
         'x-timestamp': Date.now(),
@@ -43,13 +43,14 @@ var optionsAvatar = {
     }
 }
 var optionsBanner = {
-    root: path.join(__dirname, 'images/bannerFile'),
+    root: path.join(__dirname, '../images/bannerFile'),
     dotfiles: 'deny',
     headers: {
         'x-timestamp': Date.now(),
         'x-sent': true
     }
 }
+///////////////////////////////////////----------------------------
 
 //partie GET
 userRoute.get("/get/:id", GetUser.ObjectUser); //chercher les info utilisateurs

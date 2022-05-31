@@ -32,7 +32,9 @@ export default async function requestDB(req: string) {
 
 //on créer le cors
 import cors from "cors";
-app.use(cors());
+app.use(cors({
+    "origin": "*"
+}));
 app.use(express.json());
 
 
