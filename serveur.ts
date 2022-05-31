@@ -22,7 +22,7 @@ const credentials = {
     port: 5432
 };
 export default async function requestDB(req: string) {
-    const client = new Client(credentials);  
+    const client = new Client(credentials);
     await client.connect();
     const now = await client.query(req);
     await client.end();
@@ -35,32 +35,6 @@ import cors from "cors";
 app.use(cors());
 app.use(express.json());
 
-
-//test images
-import path from "path"
-
-app.get("/lol", (req, res) => {
-    res.sendFile("./images/avatarFile/paimon_4543.jpg")
-})
-app.get('/image/:name', function (req, res, next) {
-    var options = {
-      root: path.join(__dirname, 'images/avatarFile'),
-      dotfiles: 'deny',
-      headers: {
-        'x-timestamp': Date.now(),
-        'x-sent': true
-      }
-    }
-  
-    var fileName = req.params.name
-    res.sendFile(fileName, options, function (err) {
-      if (err) {
-        next(err)
-      } else {
-        console.log('Sent:', fileName)
-      }
-    })
-  })
 
 
 //poster dans le fil
@@ -97,12 +71,12 @@ app.use("/api/user", userRoute);
 
 import { Server } from "socket.io"
 
-export const io = new Server(3001, {"cors":{"origin":'*', "allowedHeaders":"*", "methods":"*"}})
+export const io = new Server(3001, { "cors": { "origin": '*', "allowedHeaders": "*", "methods": "*" } })
 
 
 io.on("connection", (socket) => {
     console.log(socket.id, "vient de se connecter !", socket.rooms)
-    io.emit("hello", socket.id ,"Hello depuis le serveur !")
+    io.emit("hello", socket.id, "Hello depuis le serveur !")
 
     socket.on("disconnect", (reason) => {
         console.log("Client déconnecté pour : " + reason)

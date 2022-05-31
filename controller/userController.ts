@@ -8,7 +8,7 @@ interface ObjectUserFrom {
     username: string;
     discriminator: string;
     bio:string;
-    avatarURL:string;
+    avatarurl:string;
 }
 
 export const GetUser = {
@@ -21,7 +21,7 @@ export const GetUser = {
                 username: e.username,
                 discriminator: e.discriminator,
                 bio: e.bio,
-                avatarURL: e.avatarURL
+                avatarurl: e.avatarurl
             }
         })
         return res.status(201).send({ user: userRes });

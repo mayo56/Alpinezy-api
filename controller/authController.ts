@@ -117,7 +117,7 @@ export const authController = {
             if (err) return res.status(201).send({ error: err });
 
             //on push les données
-            await requestDB(`INSERT INTO alpinezy_user VALUES (${allUser.length + 1}, '${body.pseudo}', '${discriminatorUser}', '${body.email}', '${hash}');`);       
+            await requestDB(`INSERT INTO alpinezy_user VALUES (${allUser.length + 1}, '${body.pseudo}', '${discriminatorUser}', '${body.email}', '${hash}', '', 'default.jpg');`);       
 
             return res.status(200).send({ success: "Inscription réussit !" });
         });
