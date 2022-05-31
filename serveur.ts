@@ -73,7 +73,7 @@ app.use("/api/user", userRoute);
 
 import { Server } from "socket.io"
 
-export const io = new Server(3001, { "cors": { "origin": '*', "allowedHeaders": "*", "methods": "*" } })
+export const io = new Server(80, { "cors": { "origin": '*', "allowedHeaders": "*", "methods": "*" } })
 
 
 io.on("connection", (socket) => {
