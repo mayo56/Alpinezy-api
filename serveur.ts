@@ -38,7 +38,6 @@ app.use(cors({
 app.use(express.json());
 
 
-
 //poster dans le fil
 import thread from "./router/threadRoute";
 app.use("/api/thread", thread);
@@ -66,14 +65,16 @@ app.use("/api/message", msgRoute);
 import userRoute from "./router/userRoute";
 app.use("/api/user", userRoute);
 
-
+app.get("/", (req, res) => {
+    res.send("Ok bG")
+})
 // ###############  //
 // Partie socket.io //
 // ###############  //
 
 import { Server } from "socket.io"
 
-export const io = new Server(80, { "cors": { "origin": '*', "allowedHeaders": "*", "methods": "*" } })
+export const io = new Server(3000, { "cors": { "origin": '*', "allowedHeaders": "*", "methods": "*" } })
 
 
 io.on("connection", (socket) => {
