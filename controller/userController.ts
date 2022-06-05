@@ -25,6 +25,7 @@ export const GetUser = {
                     avatarurl: e.avatarurl
                 }
             })
+            if (userRes.length === 0) return res.send({error: "user not found"});
             return res.status(201).send({ user: userRes });
         } catch (err) {
             res.send({error: "user not found"})

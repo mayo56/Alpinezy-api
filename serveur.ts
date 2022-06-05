@@ -75,8 +75,6 @@ app.get("/", (req, res) => {
 import { Server } from "socket.io"
 
 export const io = new Server(3000, { "cors": { "origin": '*', "allowedHeaders": "*", "methods": "*" } })
-
-
 io.on("connection", (socket) => {
     console.log(socket.id, "vient de se connecter !", socket.rooms)
     io.emit("hello", socket.id, "Hello depuis le serveur !")
@@ -84,6 +82,9 @@ io.on("connection", (socket) => {
     socket.on("disconnect", (reason) => {
         console.log("Client déconnecté pour : " + reason)
     });
+});
+io.on("connect_error", (err) => {
+    console.log(`connect_error due to ${err.message}`);
 });
 
 
