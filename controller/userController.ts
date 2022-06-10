@@ -9,6 +9,9 @@ interface ObjectUserFrom {
     discriminator: string;
     bio: string;
     avatarurl: string;
+    following: string;
+    follower: string;
+    badgesshow: string;
 }
 
 export const GetUser = {
@@ -22,13 +25,16 @@ export const GetUser = {
                     username: e.username,
                     discriminator: e.discriminator,
                     bio: e.bio,
-                    avatarurl: e.avatarurl
+                    avatarurl: e.avatarurl,
+                    following: e.following,
+                    follower: e.follower,
+                    badgesshow: e.badgesshow,
                 }
             })
-            if (userRes.length === 0) return res.send({error: "user not found"});
+            if (userRes.length === 0) return res.send({ error: "user not found" });
             return res.status(201).send({ user: userRes });
         } catch (err) {
-            res.send({error: "user not found"})
+            res.send({ error: "user not found" })
         }
     },
 }
@@ -37,6 +43,6 @@ import { uniqueSuffix } from "../router/userRoute";
 export const setUser = {
     avatar: async (req: express.Request, res: express.Response) => {
         console.log(req.file, uniqueSuffix);
-        res.send(`file-${uniqueSuffix}`)
+        res.send(`file-${uniqueSuffix}`);
     }
 }
