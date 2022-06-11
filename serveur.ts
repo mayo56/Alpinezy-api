@@ -65,6 +65,11 @@ app.use("/api/message", msgRoute);
 import userRoute from "./router/userRoute";
 app.use("/api/user", userRoute);
 
+//route AIG (AppInfoGet)
+import AIG from "./router/AppInfoGet";
+app.use("/api/AIG", AIG);
+
+
 app.get("/", (req, res) => {
     res.send("Ok bG")
 })
@@ -86,7 +91,6 @@ io.on("connection", (socket) => {
 io.on("connect_error", (err) => {
     console.log(`connect_error due to ${err.message}`);
 });
-
 
 
 //le listener

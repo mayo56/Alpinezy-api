@@ -66,8 +66,8 @@ userRoute.get('/avatar/:name', function (req, res, next) {
         } else {
             console.log('Sent:', fileName)
         }
-    })
-})
+    });
+});
 /**
  * Récupérer la bannière
  */
