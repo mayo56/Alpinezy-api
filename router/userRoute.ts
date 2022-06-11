@@ -54,6 +54,7 @@ var optionsBanner = {
 
 //partie GET
 userRoute.get("/get/:id", GetUser.ObjectUser); //chercher les info utilisateurs
+userRoute.get("/getWithAuth/:id", jwt_CheckAuth, GetUser.ObjectUserWithAuth); //chercher l'user avec le token
 /**
  * Récupérer la photo de profile
  */
