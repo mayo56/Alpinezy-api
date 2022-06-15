@@ -16,6 +16,10 @@ interface ObjectUserFrom {
     serveur:string;
     badges:string;
 }
+type Liste = {
+    id: number; name: string; avatarurl:string;
+    member:string;
+}
 export const GetUser = {
     ObjectUser: async (req: express.Request, res: express.Response) => {
         const requete = req.params.id;
@@ -64,6 +68,23 @@ export const GetUser = {
         } catch (err) {
             res.send({ error: "user not found" })
         }
+    },
+    guildList: async (req:express.Request, res:express.Response) => {
+        if(!req.body.guilds) return res.status(201).send([]);
+        const requete:string[] = req.body.guilds?.split(/,/g);
+        console.log(requete)
+        if(requete?.length < 1) return res.status(201).send([]);
+        const reqOnDB = requestDB(`select * from alpinezy_guilds where id in (${requete.join(",")})`);
+        res.status(201).send((await reqOnDB).rows);
+    },
+    messageList:async (req:express.Request, res:express.Response) => {
+        console.log(req.body);
+        if(!req.body.guilds) return res.status(201).send([]);
+        const requete:string[] = req.body.guilds?.split(/,/g);
+        console.log(requete)
+        if(requete?.length < 1) return res.status(201).send([]);
+        const reqOnDB = requestDB(`select * from alpinezy_user where id in (${requete.join(",")})`);
+        res.status(201).send((await reqOnDB).rows);
     }
 }
 

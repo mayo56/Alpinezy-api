@@ -85,5 +85,8 @@ userRoute.get('/banner/:name', function (req, res, next) {
 //partie POST
 userRoute.post("/setAvatar", jwt_CheckAuth, uploadAvatar.single("file"), setUser.avatar); // Ajouter une photo de profile
 userRoute.post("/setBanner", jwt_CheckAuth, uploadBanner.single("file"), setUser.avatar); // Ajouter une bannière
+//récupération données (server, message)
+userRoute.post("/guildlist", jwt_CheckAuth,GetUser.guildList); //récupérer la liste de serveur
+userRoute.post("/messagelist", jwt_CheckAuth,GetUser.messageList); //récupérer la liste des messages privés
 
 export default userRoute;
