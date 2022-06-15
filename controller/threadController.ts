@@ -24,7 +24,7 @@ export const threadController = {
         const Allpost = await requestDB("SELECT * FROM alpinezy_thread;");
         const MessageSansApostrophe = body.message.split(/'/g);
         try {
-            await requestDB(`INSERT INTO alpinezy_thread (id, user_id, message, timestamp) VALUES (${(Allpost.rows.length + 1)}, ${UserInfoJWT.id}, '${MessageSansApostrophe}', '${Date.now().toString()}');`);
+            await requestDB(`INSERT INTO alpinezy_thread (id, user_id, message, timestamp) VALUES (${(Allpost.rows.length + 1)}, ${UserInfoJWT.id}, '${MessageSansApostrophe.join("''")}', '${Date.now().toString()}');`);
             io.emit("newPost");
             return res.status(201).send({ success: "Post correctement ajouté !" });
         } catch (err) {
