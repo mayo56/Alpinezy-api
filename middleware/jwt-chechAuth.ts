@@ -1,4 +1,4 @@
-import jwt, { Secret } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import express from "express";
 
 require("dotenv").config()

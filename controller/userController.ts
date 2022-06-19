@@ -85,6 +85,14 @@ export const GetUser = {
         if(requete?.length < 1) return res.status(201).send([]);
         const reqOnDB = requestDB(`select * from alpinezy_user where id in (${requete.join(",")})`);
         res.status(201).send((await reqOnDB).rows);
+    },
+    channelList: async(req:express.Request, res:express.Response) => {
+        if(!req.body.guilds) return res.status(201).send([]);
+        const requete:string[] = req.body.guilds?.split(/,/g);
+        console.log(requete)
+        if(requete?.length < 1) return res.status(201).send([]);
+        const reqOnDB = requestDB(`select * from alpinezy_channels where id in (${requete.join(",")})`);
+        res.status(201).send((await reqOnDB).rows);
     }
 }
 

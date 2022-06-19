@@ -6,7 +6,7 @@ import userFormJWT from "./threadController";
 
 export const msgController = {
     send: async (req:express.Request, res:express.Response) => {
-        const body:{message:string} = req.body;
+        const body:{message:string, } = req.body;
         const jwt_auth:userFormJWT = express.user as userFormJWT;
 
         if(!body.message) return res.status(401).send({error:"elements manquant"});

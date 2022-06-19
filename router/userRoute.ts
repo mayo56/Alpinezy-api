@@ -88,5 +88,6 @@ userRoute.post("/setBanner", jwt_CheckAuth, uploadBanner.single("file"), setUser
 //récupération données (server, message)
 userRoute.post("/guildlist", jwt_CheckAuth,GetUser.guildList); //récupérer la liste de serveur
 userRoute.post("/messagelist", jwt_CheckAuth,GetUser.messageList); //récupérer la liste des messages privés
+userRoute.post("/channellist", jwt_CheckAuth, GetUser.channelList) // récupérer la liste de channel
 
 export default userRoute;
