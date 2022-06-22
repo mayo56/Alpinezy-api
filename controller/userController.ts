@@ -12,13 +12,13 @@ interface ObjectUserFrom {
     following: string;
     follower: string;
     badgesshow: string;
-    privatemessage:string;
-    serveur:string;
-    badges:string;
+    privatemessage: string;
+    serveur: string;
+    badges: string;
 }
 type Liste = {
-    id: number; name: string; avatarurl:string;
-    member:string;
+    id: number; name: string; avatarurl: string;
+    member: string;
 }
 export const GetUser = {
     ObjectUser: async (req: express.Request, res: express.Response) => {
@@ -45,7 +45,7 @@ export const GetUser = {
     },
     ObjectUserWithAuth: async (req: express.Request, res: express.Response) => {
         const requete = req.params.id;
-        if ((express.user as {id:number}).id !== Number(requete)) return res.status(201).send({error:"id of user not match"});
+        if ((express.user as { id: number }).id !== Number(requete)) return res.status(201).send({ error: "id of user not match" });
         try {
             const userReq: ObjectUserFrom[] = ((await requestDB(`SELECT * FROM alpinezy_user WHERE id=${Number(requete)};`)).rows)
             const userRes = userReq.map((e: ObjectUserFrom) => {
@@ -58,9 +58,9 @@ export const GetUser = {
                     following: e.following,
                     follower: e.follower,
                     badgesshow: e.badgesshow,
-                    badges:e.badges,
-                    privatemessage:e.privatemessage,
-                    serveur:e.serveur,
+                    badges: e.badges,
+                    privatemessage: e.privatemessage,
+                    serveur: e.serveur,
                 }
             })
             if (userRes.length === 0) return res.send({ error: "user not found" });
@@ -69,29 +69,35 @@ export const GetUser = {
             res.send({ error: "user not found" })
         }
     },
-    guildList: async (req:express.Request, res:express.Response) => {
-        if(!req.body.guilds) return res.status(201).send([]);
-        const requete:string[] = req.body.guilds?.split(/,/g);
+    guildList: async (req: express.Request, res: express.Response) => {
+        if (!req.body.guilds) return res.status(201).send([]);
+        const requete: string[] = req.body.guilds?.split(/,/g);
         console.log(requete)
-        if(requete?.length < 1) return res.status(201).send([]);
+        if (requete?.length < 1) return res.status(201).send([]);
         const reqOnDB = requestDB(`select * from alpinezy_guilds where id in (${requete.join(",")})`);
         res.status(201).send((await reqOnDB).rows);
     },
-    messageList:async (req:express.Request, res:express.Response) => {
+    messageList: async (req: express.Request, res: express.Response) => {
         console.log(req.body);
-        if(!req.body.guilds) return res.status(201).send([]);
-        const requete:string[] = req.body.guilds?.split(/,/g);
+        if (!req.body.guilds) return res.status(201).send([]);
+        const requete: string[] = req.body.guilds?.split(/,/g);
         console.log(requete)
-        if(requete?.length < 1) return res.status(201).send([]);
+        if (requete?.length < 1) return res.status(201).send([]);
         const reqOnDB = requestDB(`select * from alpinezy_user where id in (${requete.join(",")})`);
         res.status(201).send((await reqOnDB).rows);
     },
-    channelList: async(req:express.Request, res:express.Response) => {
-        if(!req.body.guilds) return res.status(201).send([]);
-        const requete:string[] = req.body.guilds?.split(/,/g);
-        console.log(requete)
-        if(requete?.length < 1) return res.status(201).send([]);
+    channelList: async (req: express.Request, res: express.Response) => {
+        if (!req.body.channels) return res.status(201).send([]);
+        const requete: string[] = req.body.channels?.split(/,/g);
+        if (requete?.length < 1) return res.status(201).send([]);
         const reqOnDB = requestDB(`select * from alpinezy_channels where id in (${requete.join(",")})`);
+        res.status(201).send((await reqOnDB).rows);
+    },
+    userList: async (req: express.Request, res: express.Response) => {
+        if (!req.body.users) return res.status(201).send([]);
+        const requete: string[] = req.body.users?.split(/,/g);
+        if (requete?.length < 1) return res.status(201).send([]);
+        const reqOnDB = requestDB(`select * from alpinezy_user where id in (${requete.join(",")})`);
         res.status(201).send((await reqOnDB).rows);
     }
 }

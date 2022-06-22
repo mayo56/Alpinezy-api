@@ -6,16 +6,16 @@ import userFormJWT from "./threadController";
 
 export const msgController = {
     send: async (req:express.Request, res:express.Response) => {
-        const body:{message:string, } = req.body;
+        const body:{ message:string, channelID:string } = req.body;
         const jwt_auth:userFormJWT = express.user as userFormJWT;
 
         if(!body.message) return res.status(401).send({error:"elements manquant"});
         
-        const allMessage = await requestDB("SELECT * FROM alpinezy_channel;");
+        const allMessage = await requestDB(`SELECT count(*) FROM channel_${body.channelID};`);
 
         try {
-            await requestDB(`INSERT INTO alpinezy_channel VALUES (${allMessage.rowCount + 1}, '${body.message}', '${jwt_auth.id}', '${Date.now().toString()}');`);
-            io.emit("messageCreate", {channelid:"test"});
+            await requestDB(`INSERT INTO channel_${body.channelID} VALUES (${allMessage.rowCount + 1}, '${body.message}', '${jwt_auth.id}', false, '${Date.now().toString()}');`);
+            io.emit("messageCreate", {channelID:body.channelID});
             return res.status(201).send({success:"message envoyé !"});
         }catch(err) {
             res.status(401).send({error:"Un problème est survenue:" + err});
@@ -26,7 +26,7 @@ export const msgController = {
         return res.status(201).send(allMessage.rows);
     },
     allMessages: async (req:express.Request, res:express.Response) => {
-        const AllMessage = await requestDB("SELECT * FROM alpinezy_channel ORDER BY id DESC LIMIT 20;");
+        const AllMessage = await requestDB(`SELECT * FROM channel_${req.params.id} ORDER BY id DESC LIMIT 20;`);
         return res.status(201).send(AllMessage.rows.reverse());
     }
 };
