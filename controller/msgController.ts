@@ -11,14 +11,22 @@ export const msgController = {
 
         if(!body.message) return res.status(401).send({error:"elements manquant"});
         
-        const allMessage = await requestDB(`SELECT count(*) FROM channel_${body.channelID};`);
-
+        const allMessage = (await requestDB(`SELECT count(*) FROM channel_${body.channelID};`)).rows;
+        const timestamp = Date.now().toString();
         try {
-            await requestDB(`INSERT INTO channel_${body.channelID} VALUES (${allMessage.rowCount + 1}, '${body.message}', '${jwt_auth.id}', false, '${Date.now().toString()}');`);
-            io.emit("messageCreate", {channelID:body.channelID});
-            return res.status(201).send({success:"message envoyé !"});
+            await requestDB(`INSERT INTO channel_${body.channelID} VALUES (${Number(allMessage[0].count) + 1}, '${body.message}', '${jwt_auth.id}', 0, '${timestamp}');`);
+            res.status(201).send({success:"message envoyé !"});
+            io.emit("messageCreate", {
+                id:Number(allMessage[0].count) + 1,
+                content:body.message,
+                author:jwt_auth.id,
+                isreply:0,
+                timestamp:timestamp,
+                channelID:body.channelID
+            });
+            return
         }catch(err) {
-            res.status(401).send({error:"Un problème est survenue:" + err});
+            return res.status(401).send({error:"Un problème est survenue:" + err});
         };
     },
     lastMessage: async (req:express.Request, res:express.Response) => {
