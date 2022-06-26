@@ -120,8 +120,8 @@ export const setUser = {
             console.error(err)
         }
         try {
-            requestDB(`update alpinezy_user set "avatarurl"='file-${uniqueSuffix}' where id=${Number(user.id)}`)
-            res.send(`file-${uniqueSuffix}`);
+            requestDB(`update alpinezy_user set "avatarurl"='avatar-${uniqueSuffix}' where id=${Number(user.id)}`)
+            res.send(`avatar-${uniqueSuffix}`);
         }catch(err) {
             res.send(err)
         }

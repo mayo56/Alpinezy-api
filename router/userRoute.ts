@@ -17,7 +17,7 @@ const storageAvatar = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9) + `.${file.mimetype.slice(6)}`;
-        cb(null, file.fieldname + '-' + uniqueSuffix);
+        cb(null, "avatar" + '-' + uniqueSuffix);
     }
 });
 const storageBanner = multer.diskStorage({
@@ -26,7 +26,7 @@ const storageBanner = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, file.fieldname + '-' + uniqueSuffix);
+        cb(null, "banner" + '-' + uniqueSuffix);
     }
 });
 const uploadAvatar = multer({ storage: storageAvatar });
