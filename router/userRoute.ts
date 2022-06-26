@@ -16,7 +16,7 @@ const storageAvatar = multer.diskStorage({
         cb(null, 'images/avatarFile');
     },
     filename: function (req, file, cb) {
-        uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9) + `.${file.mimetype.slice(6)}`;
         cb(null, file.fieldname + '-' + uniqueSuffix);
     }
 });

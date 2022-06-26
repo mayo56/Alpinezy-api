@@ -106,6 +106,13 @@ import { uniqueSuffix } from "../router/userRoute";
 export const setUser = {
     avatar: async (req: express.Request, res: express.Response) => {
         console.log(req.file, uniqueSuffix);
-        res.send(`file-${uniqueSuffix}`);
+        const user = express.user as userFormJWT
+        try {
+            requestDB(`update alpinezy_user set "avatarurl"='file-${uniqueSuffix}' where id=${Number(user.id)}`)
+            res.send(`file-${uniqueSuffix}`);
+        }catch(err) {
+            res.send(err)
+        }
+        
     }
 }

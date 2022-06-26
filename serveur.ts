@@ -33,7 +33,8 @@ export default async function requestDB(req: string) {
 //on créer le cors
 import cors from "cors";
 app.use(cors({
-    "origin": "*"
+    "origin": "*",
+    "methods": "*"
 }));
 app.use(express.json());
 
@@ -78,6 +79,7 @@ app.get("/", (req, res) => {
 // ###############  //
 
 import { Server } from "socket.io"
+import multer from "multer";
 
 export const io = new Server(3000, { "cors": { "origin": '*', "allowedHeaders": "*", "methods": "*" } })
 io.on("connection", (socket) => {
