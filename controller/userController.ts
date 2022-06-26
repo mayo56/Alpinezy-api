@@ -108,6 +108,7 @@ export const setUser = {
     avatar: async (req: express.Request, res: express.Response) => {
         console.log(req.file, uniqueSuffix);
         const user = express.user as userFormJWT
+        if (!req.file) return res.status(401).send({error:"Manque la photo là"});
         try {
             const userInformations = (await requestDB(`select avatarurl from alpinezy_user where id=${user.id};`)).rows;
             if (userInformations[0].avatarurl !== "default.jpg") {
