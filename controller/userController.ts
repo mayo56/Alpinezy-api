@@ -103,10 +103,21 @@ export const GetUser = {
 }
 
 import { uniqueSuffix } from "../router/userRoute";
+import { unlink } from "node:fs"
 export const setUser = {
     avatar: async (req: express.Request, res: express.Response) => {
         console.log(req.file, uniqueSuffix);
         const user = express.user as userFormJWT
+        try {
+            const userInformations = (await requestDB(`select avatarurl from alpinezy_user where id=${user.id};`)).rows;
+            if (userInformations[0].avatarurl !== "default.jpg") {
+                unlink(`images/avatarFile/${userInformations[0].avatarurl}`, (err) => {
+                    if (err) {console.error(err);} else {console.log("fichier supprimé !")}
+                })
+            }
+        }catch (err) {
+            console.error(err)
+        }
         try {
             requestDB(`update alpinezy_user set "avatarurl"='file-${uniqueSuffix}' where id=${Number(user.id)}`)
             res.send(`file-${uniqueSuffix}`);
